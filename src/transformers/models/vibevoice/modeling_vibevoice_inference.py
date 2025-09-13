@@ -515,8 +515,15 @@ class VibeVoiceForConditionalGenerationInference(VibeVoicePreTrainedModel, Gener
                     negative_model_kwargs['attention_mask'][sample_idx, :] = 0
                     negative_model_kwargs['attention_mask'][sample_idx, -1] = 1
                 # update past key values
-                for layer_idx, (k_cache, v_cache) in enumerate(zip(negative_model_kwargs['past_key_values'].key_cache, 
-                                                                        negative_model_kwargs['past_key_values'].value_cache)):
+                # TODO: originally, this code accessed .key_cache attribute for
+                # negative_model_kwargs['past_key_values'].key_cache, understand
+                # and investigate why this wasn't working. Also investigate the
+                # .value_cache attribute and where it went.
+                for layer_idx, (k_cache, v_cache) in enumerate(zip(
+                    [layer.keys for layer in negative_model_kwargs[
+                        'past_key_values'].layers],
+                    [layer.values for layer in negative_model_kwargs[
+                        'past_key_values'].layers])):
                     # Process each non-diffusion sample
                     for sample_idx in diffusion_start_indices.tolist():
                         # Shift cache for this sample
@@ -568,8 +575,16 @@ class VibeVoiceForConditionalGenerationInference(VibeVoicePreTrainedModel, Gener
                         negative_model_kwargs['attention_mask'][sample_idx, start_idx] = 0
 
                     # 2. Update past_key_values
-                    for layer_idx, (k_cache, v_cache) in enumerate(zip(negative_model_kwargs['past_key_values'].key_cache, 
-                                                                        negative_model_kwargs['past_key_values'].value_cache)):
+                    # TODO: originally, this code accessed .key_cache attribute
+                    # for negative_model_kwargs['past_key_values'].key_cache,
+                    # understand and investigate why this wasn't working.
+                    # Also investigate the .value_cache attribute and where it
+                    # went.
+                    for layer_idx, (k_cache, v_cache) in enumerate(zip(
+                        [layer.keys for layer in negative_model_kwargs[
+                            'past_key_values'].layers],
+                        [layer.values for layer in negative_model_kwargs[
+                            'past_key_values'].layers])):
                         # Process each non-diffusion sample
                         for sample_idx, start_idx in zip(non_diffusion_indices.tolist(), start_indices.tolist()):
                             if start_idx + 1 < k_cache.shape[2] - 1:
