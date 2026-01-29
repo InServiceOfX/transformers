@@ -16,7 +16,7 @@ from .configuration_vibevoice import VibeVoiceConfig
 from .modular_vibevoice_tokenizer import VibeVoiceTokenizerStreamingCache, VibeVoiceTokenizerEncoderOutput
 from .modular_vibevoice_diffusion_head import VibeVoiceDiffusionHead
 
-from .modular_vibevoice_text_tokenizer import VibeVoiceTextTokenizer, VibeVoiceTextTokenizerFast
+from .modular_vibevoice_text_tokenizer import VibeVoiceTextTokenizer#, VibeVoiceTextTokenizerFast
 
 from .modeling_vibevoice import VibeVoiceModel, VibeVoicePreTrainedModel
 from .audio_streamer import AudioStreamer, AsyncAudioStreamer

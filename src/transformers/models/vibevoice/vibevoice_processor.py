@@ -59,7 +59,6 @@ class VibeVoiceProcessor:
         from .vibevoice_audio_processor import VibeVoiceTokenizerProcessor
         from .modular_vibevoice_text_tokenizer import (
             VibeVoiceTextTokenizer, 
-            VibeVoiceTextTokenizerFast
         )
         
         # Load processor configuration
@@ -82,7 +81,7 @@ class VibeVoiceProcessor:
         language_model_pretrained_name = config.get("language_model_pretrained_name", None) or kwargs.pop("language_model_pretrained_name", "Qwen/Qwen2.5-1.5B")
         logger.info(f"Loading tokenizer from {language_model_pretrained_name}")
         if 'qwen' in language_model_pretrained_name.lower():
-            tokenizer = VibeVoiceTextTokenizerFast.from_pretrained(
+            tokenizer = VibeVoiceTextTokenizer.from_pretrained(
                 language_model_pretrained_name,
                 **kwargs
             )
